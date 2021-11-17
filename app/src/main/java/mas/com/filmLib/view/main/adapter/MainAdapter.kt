@@ -50,7 +50,7 @@ class MainAdapter(private var onListItemClickListener: OnListItemClickListener) 
                     rank.visibility = View.VISIBLE
                 }
                 rank.progress = (data.vote_average * 10).roundToInt()
-                tvProgressCircle.text = "${(data.vote_average * 10).roundToInt()} %"
+                tvProgressCircle.text = "${(data.vote_average * 10).roundToInt()}%"
 //                itemView.setOnClickListener { openInNewWindow(data) }
             }
         }

@@ -25,9 +25,9 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
     private val fabClickListener: View.OnClickListener =
         View.OnClickListener {
-            val searchDialogFragment = SearchDialogFragment.newInstance()
-            searchDialogFragment.setOnSearchClickListener(onSearchClickListener)
-            searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
+//            val searchDialogFragment = SearchDialogFragment.newInstance()
+//            searchDialogFragment.setOnSearchClickListener(onSearchClickListener)
+//            searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
         }
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object : MainAdapter.OnListItemClickListener {
@@ -42,18 +42,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                 )
             }
         }
-    private val onSearchClickListener: SearchDialogFragment.OnSearchClickListener =
-        object : SearchDialogFragment.OnSearchClickListener {
-            override fun onClick(searchWord: String) {
-                isNetworkAvailable = isOnline(applicationContext)
-                if (isNetworkAvailable) {
-                    model.getData(1, isNetworkAvailable)
-                    Log.d("","")
-                } else {
-                    showNoInternetConnectionDialog()
-                }
-            }
-        }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,7 +97,6 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     }
 
     private fun initViews() {
-        vb?.searchFab?.setOnClickListener(fabClickListener)
         vb?.mainActivityRecyclerview?.layoutManager = LinearLayoutManager(applicationContext)
         vb?.mainActivityRecyclerview?.adapter = adapter
     }
