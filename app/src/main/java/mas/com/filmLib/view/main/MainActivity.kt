@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.Button
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import mas.com.filmLib.R
@@ -25,6 +26,8 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     override lateinit var model: MainViewModel
     private var page = 1
     private var maxPage = 1
+    private var incrementBt: MenuItem? = null
+    private var decrementBt: MenuItem? = null
     private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
     private val fabClickListener: View.OnClickListener =
         View.OnClickListener {
@@ -59,6 +62,8 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
+        decrementBt = menu?.findItem(R.id.decrement)
+        incrementBt = menu?.findItem(R.id.increment)
         return true
     }
 
@@ -77,6 +82,11 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         return true
     }
 
+    private fun checkMenuButton() {
+        incrementBt?.isEnabled = if (page==maxPage) false else true
+        decrementBt?.isEnabled = if (page==1) false else true
+    }
+
     override fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
@@ -91,6 +101,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                 page = data.page
                 maxPage = data.total_pages
                 vb?.tvPageNumber?.text = "${getString(R.string.page)} ${data.page}"
+                checkMenuButton()
                 adapter.setData(data.results)
 //                }
             }
