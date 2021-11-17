@@ -1,7 +1,8 @@
 package mas.com.filmLib.view.main
 
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -22,6 +23,8 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     private var vb: ActivityMainBinding? = null
     override lateinit var model: MainViewModel
+    private var page = 1
+    private var maxPage = 1
     private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
     private val fabClickListener: View.OnClickListener =
         View.OnClickListener {
@@ -51,7 +54,27 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
         iniViewModel()
         initViews()
-        model.getData(1, isOnline(applicationContext))
+        model.getData(page, isOnline(applicationContext))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.increment -> if (page <= maxPage) {
+                page++
+                model.getData(page, isOnline(applicationContext))
+            }
+            R.id.decrement -> if (page > 1) {
+                page--
+                model.getData(page, isOnline(applicationContext))
+            }
+            else -> return false
+        }
+        return true
     }
 
     override fun renderData(appState: AppState) {
@@ -65,7 +88,10 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
 //                        getString(R.string.empty_server_response_on_success)
 //                    )
 //                } else {
-                    adapter.setData(data.results)
+                page = data.page
+                maxPage = data.total_pages
+                vb?.tvPageNumber?.text = "${getString(R.string.page)} ${data.page}"
+                adapter.setData(data.results)
 //                }
             }
             is AppState.Loading -> {
@@ -110,6 +136,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     }
 
     companion object {
-        private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
+        private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG =
+            "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
     }
 }

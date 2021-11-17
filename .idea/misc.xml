@@ -8,10 +8,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/Film/app/src/main/res/drawable/circle.xml" value="0.2526041666666667" />
         <entry key="..\:/Android/Film/app/src/main/res/drawable/gradient_rank.xml" value="0.2526041666666667" />
+        <entry key="..\:/Android/Film/app/src/main/res/drawable/ic_baseline_stop_circle_24.xml" value="0.2526041666666667" />
+        <entry key="..\:/Android/Film/app/src/main/res/drawable/ic_load_error_vector.xml" value="0.2526041666666667" />
+        <entry key="..\:/Android/Film/app/src/main/res/drawable/ic_round_run_circle_24.xml" value="0.2526041666666667" />
         <entry key="..\:/Android/Film/app/src/main/res/layout/activity_description.xml" value="0.115625" />
-        <entry key="..\:/Android/Film/app/src/main/res/layout/activity_main.xml" value="0.115625" />
-        <entry key="..\:/Android/Film/app/src/main/res/layout/activity_main_recyclerview_item.xml" value="0.21145833333333333" />
+        <entry key="..\:/Android/Film/app/src/main/res/layout/activity_main.xml" value="0.23645833333333333" />
+        <entry key="..\:/Android/Film/app/src/main/res/layout/activity_main_recyclerview_item.xml" value="0.1" />
+        <entry key="..\:/Android/Film/app/src/main/res/menu/main.xml" value="0.23645833333333333" />
       </map>
     </option>
   </component>

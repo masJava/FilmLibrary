@@ -1,43 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-    <FrameLayout
+    <LinearLayout
             android:id="@+id/working_linear_layout"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/main_activity_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+            <TextView
+                    android:id="@+id/tv_page_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/page" />
 
-    </FrameLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/main_activity_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+    </LinearLayout>
 
     <FrameLayout
             android:id="@+id/loading_frame_layout"
             android:layout_width="match_parent"
-            android:visibility="gone"
+            android:layout_height="match_parent"
+            android:background="@color/color_white_transparent"
             android:clickable="true"
             android:focusable="true"
-            android:background="@color/color_white_transparent"
-            android:layout_height="match_parent">
+            android:visibility="gone">
 
         <ProgressBar
-                android:layout_gravity="center"
                 android:id="@+id/progress_bar_horizontal"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
         <ProgressBar
-                android:layout_gravity="center"
                 android:id="@+id/progress_bar_round"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
     </FrameLayout>
 </FrameLayout>
