@@ -1,19 +1,16 @@
 package mas.com.filmLib.view.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Button
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import mas.com.filmLib.R
 import mas.com.filmLib.databinding.ActivityMainBinding
 import mas.com.filmLib.model.data.AppState
-import mas.com.filmLib.model.data.DataModel
-import mas.com.filmLib.utils.convertMeaningsToString
 import mas.com.filmLib.utils.network.isOnline
 import mas.com.filmLib.view.base.BaseActivity
 import mas.com.filmLib.view.descriptionscreen.DescriptionActivity
@@ -29,23 +26,11 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     private var incrementBt: MenuItem? = null
     private var decrementBt: MenuItem? = null
     private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
-    private val fabClickListener: View.OnClickListener =
-        View.OnClickListener {
-//            val searchDialogFragment = SearchDialogFragment.newInstance()
-//            searchDialogFragment.setOnSearchClickListener(onSearchClickListener)
-//            searchDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
-        }
+
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object : MainAdapter.OnListItemClickListener {
-            override fun onItemClick(data: DataModel) {
-                startActivity(
-                    DescriptionActivity.getIntent(
-                        this@MainActivity,
-                        data.text!!,
-                        convertMeaningsToString(data.meanings!!),
-                        data.meanings[0].imageUrl
-                    )
-                )
+            override fun onItemClick(film: Int) {
+                model.getDataFilm(film, isOnline(applicationContext))
             }
         }
 
@@ -83,8 +68,8 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     }
 
     private fun checkMenuButton() {
-        incrementBt?.isEnabled = if (page==maxPage) false else true
-        decrementBt?.isEnabled = if (page==1) false else true
+        incrementBt?.isEnabled = page != maxPage
+        decrementBt?.isEnabled = page != 1
     }
 
     override fun renderData(appState: AppState) {
@@ -92,18 +77,21 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
             is AppState.Success -> {
                 showViewWorking()
                 val data = appState.data
-//                if (data.isNullOrEmpty()) {
-//                    showAlertDialog(
-//                        getString(R.string.dialog_tittle_sorry),
-//                        getString(R.string.empty_server_response_on_success)
-//                    )
-//                } else {
                 page = data.page
                 maxPage = data.total_pages
                 vb?.tvPageNumber?.text = "${getString(R.string.page)} ${data.page}"
                 checkMenuButton()
                 adapter.setData(data.results)
-//                }
+            }
+            is AppState.ToDescriptionActivity -> {
+                val newData = appState.data
+                Log.d("", newData.toString())
+                startActivity(
+                    DescriptionActivity.getIntent(
+                        this@MainActivity,
+                        newData
+                    )
+                )
             }
             is AppState.Loading -> {
                 showViewLoading()

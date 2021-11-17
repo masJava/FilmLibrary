@@ -10,7 +10,6 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import mas.com.filmLib.R
 import mas.com.filmLib.databinding.ActivityMainRecyclerviewItemBinding
-import mas.com.filmLib.model.data.DataModel
 import mas.com.filmLib.model.data.Result
 import kotlin.math.roundToInt
 
@@ -82,6 +81,7 @@ class MainAdapter(private var onListItemClickListener: OnListItemClickListener) 
                 }
                 tags.text = setTagsStr(data.genre_ids)
             }
+            itemView.setOnClickListener { openInNewWindow(data.id) }
         }
     }
 
@@ -105,11 +105,11 @@ class MainAdapter(private var onListItemClickListener: OnListItemClickListener) 
             })
     }
 
-    private fun openInNewWindow(listItemData: DataModel) {
-        onListItemClickListener.onItemClick(listItemData)
+    private fun openInNewWindow(film: Int) {
+        onListItemClickListener.onItemClick(film)
     }
 
     interface OnListItemClickListener {
-        fun onItemClick(data: DataModel)
+        fun onItemClick(film: Int)
     }
 }

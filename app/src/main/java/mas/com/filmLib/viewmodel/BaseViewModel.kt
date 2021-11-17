@@ -2,8 +2,8 @@ package mas.com.filmLib.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import mas.com.filmLib.model.data.AppState
 import kotlinx.coroutines.*
+import mas.com.filmLib.model.data.AppState
 
 abstract class BaseViewModel<T : AppState>(
     protected open val _mutableLiveData: MutableLiveData<T> = MutableLiveData()
@@ -26,6 +26,7 @@ abstract class BaseViewModel<T : AppState>(
     }
 
     abstract fun getData(page: Int, isOnline: Boolean)
+    abstract fun getDataFilm(film: Int, isOnline: Boolean)
 
     abstract fun handleError(error: Throwable)
 }

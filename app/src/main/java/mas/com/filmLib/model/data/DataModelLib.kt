@@ -6,7 +6,7 @@ data class DataModelLib(
     val total_pages: Int,
     val total_results: Int
 ) {
-    constructor() : this(0, arrayListOf(),0,0)
+    constructor() : this(0, arrayListOf(), 0, 0)
 }
 
 data class Result(

@@ -1,7 +1,6 @@
 package mas.com.filmLib.view.main
 
 import mas.com.filmLib.model.data.AppState
-import mas.com.filmLib.model.data.DataModel
 import mas.com.filmLib.model.data.DataModelLib
 import mas.com.filmLib.model.repository.Repository
 import mas.com.filmLib.viewmodel.Interactor
@@ -19,5 +18,9 @@ class MainInteractor(
                 repositoryLocal
             }.getData(page)
         )
+    }
+
+    suspend fun getDataFilm(film: Int): String {
+        return repositoryRemote.getDataFilm(film)
     }
 }

@@ -1,5 +1,6 @@
 package mas.com.filmLib.model.datasource
 
+import com.google.gson.JsonObject
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import mas.com.filmLib.model.data.DataModelLib
 import mas.com.filmLib.model.data.api.ApiService
@@ -20,6 +21,14 @@ class RetrofitImplementation : DataSource<DataModelLib> {
             "274f828ad283bd634ef4fc1ee4af255f",
             "ru",
             page
+        ).await()
+    }
+
+    override suspend fun getDataFilm(film: Int): JsonObject {
+        return getService(BaseInterceptor.interceptor).getFilmAsync(
+            film,
+            "274f828ad283bd634ef4fc1ee4af255f",
+            "ru"
         ).await()
     }
 
@@ -45,6 +54,6 @@ class RetrofitImplementation : DataSource<DataModelLib> {
 
     companion object {
         //        private const val BASE_URL = "https://dictionary.skyeng.ru/api/public/v1/"
-        private const val BASE_URL = "https://api.themoviedb.org/3/discover/"
+        private const val BASE_URL = "https://api.themoviedb.org/3/"
     }
 }

@@ -2,21 +2,16 @@ package mas.com.filmLib.view.descriptionscreen
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
+import com.google.gson.Gson
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import mas.com.filmLib.R
 import mas.com.filmLib.databinding.ActivityDescriptionBinding
+import mas.com.filmLib.model.data.DataModelFilm
 import mas.com.filmLib.utils.network.isOnline
 import mas.com.filmLib.utils.ui.AlertDialogFragment
 
@@ -51,16 +46,24 @@ class DescriptionActivity : AppCompatActivity() {
 
     private fun setData() {
         val bundle = intent.extras
-        vb?.descriptionHeader?.text = bundle?.getString(WORD_EXTRA)
-        vb?.descriptionTextview?.text = bundle?.getString(DESCRIPTION_EXTRA)
-        val imageLink = bundle?.getString(URL_EXTRA)
-        if (imageLink.isNullOrBlank()) {
+        val gson = Gson()
+        val filmData: DataModelFilm =
+            gson.fromJson(bundle?.getString(FILM_EXTRA), DataModelFilm::class.java)
+        if (filmData == DataModelFilm()) {
             stopRefreshAnimationIfNeeded()
         } else {
-            //usePicassoToLoadPhoto(description_imageview, imageLink)
-            vb?.descriptionImageview?.let {
-                useGlideToLoadPhoto(it, imageLink)
-
+            vb?.title?.text = filmData.title
+            vb?.overview?.text = filmData.overview
+            val runtime = "Продолжительность: %s ч. %s мин.".format(
+                filmData.runtime / 60,
+                filmData.runtime % 60
+            )
+            vb?.runtime?.text = runtime
+            val context = vb?.root?.context
+            if (context != null) {
+                vb?.descriptionImageview?.let {
+                    usePicassoToLoadPhoto(context, it, filmData.poster_path)
+                }
             }
         }
     }
@@ -89,72 +92,30 @@ class DescriptionActivity : AppCompatActivity() {
         }
     }
 
-    private fun usePicassoToLoadPhoto(imageView: ImageView, imageLink: String) {
-        Picasso.with(applicationContext).load("https:$imageLink")
-            .placeholder(R.drawable.ic_no_photo_vector).fit().centerCrop()
+    private fun usePicassoToLoadPhoto(context: Context, imageView: ImageView, imageLink: String) {
+        Picasso.with(context).load("https://image.tmdb.org/t/p/w500$imageLink")
+            .placeholder(R.drawable.ic_no_photo_vector).fit().centerInside()
             .into(imageView, object : Callback {
                 override fun onSuccess() {
-                    stopRefreshAnimationIfNeeded()
                 }
 
                 override fun onError() {
-                    stopRefreshAnimationIfNeeded()
                     imageView.setImageResource(R.drawable.ic_load_error_vector)
                 }
             })
-    }
-
-    private fun useGlideToLoadPhoto(imageView: ImageView, imageLink: String) {
-        Glide.with(imageView)
-            .load("https:$imageLink")
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    stopRefreshAnimationIfNeeded()
-                    imageView.setImageResource(R.drawable.ic_load_error_vector)
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    stopRefreshAnimationIfNeeded()
-                    return false
-                }
-            })
-            .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.ic_no_photo_vector)
-                    .centerCrop()
-            )
-            .into(imageView)
     }
 
     companion object {
 
         private const val DIALOG_FRAGMENT_TAG = "8c7dff51-9769-4f6d-bbee-a3896085e76e"
 
-        private const val WORD_EXTRA = "f76a288a-5dcc-43f1-ba89-7fe1d53f63b0"
-        private const val DESCRIPTION_EXTRA = "0eeb92aa-520b-4fd1-bb4b-027fbf963d9a"
-        private const val URL_EXTRA = "6e4b154d-e01f-4953-a404-639fb3bf7281"
+        private const val FILM_EXTRA = "f76a288a-5dcc-43f1-ba89-7fe1d53f63b0"
 
         fun getIntent(
             context: Context,
-            word: String,
-            description: String,
-            url: String?
+            dataFilm: String
         ): Intent = Intent(context, DescriptionActivity::class.java).apply {
-            putExtra(WORD_EXTRA, word)
-            putExtra(DESCRIPTION_EXTRA, description)
-            putExtra(URL_EXTRA, url)
+            putExtra(FILM_EXTRA, dataFilm)
         }
     }
 }

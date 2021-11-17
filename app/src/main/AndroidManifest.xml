@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="mas.com.filmLib">
+        package="mas.com.filmLib">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
             android:allowBackup="true"
@@ -14,18 +14,19 @@
             android:theme="@style/AppTheme"
             android:name="mas.com.filmLib.application.TranslatorApp">
 
-        <activity android:name="mas.com.filmLib.view.main.MainActivity"
-                  android:screenOrientation="portrait"
+        <activity
+                android:name="mas.com.filmLib.view.main.MainActivity"
+                android:screenOrientation="portrait"
                 android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
                 android:name="mas.com.filmLib.view.descriptionscreen.DescriptionActivity"
-                android:screenOrientation="portrait"/>
+                android:screenOrientation="portrait" />
     </application>
 
 </manifest>

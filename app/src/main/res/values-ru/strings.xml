@@ -3,5 +3,4 @@
     <string name="app_name">Библиотека фильмов</string>
     <string name="page">Страница:</string>
     <string name="error_stub">Ошибка</string>
-    <string name="button_search">Поиск</string>
 </resources>
