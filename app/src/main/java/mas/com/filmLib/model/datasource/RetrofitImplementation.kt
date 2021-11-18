@@ -13,12 +13,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitImplementation : DataSource<DataModelLib> {
 
-    //    override suspend fun getData(word: String): List<DataModel> {
-//        return getService(BaseInterceptor.interceptor).searchAsync(word).await()
-//    }
     override suspend fun getData(page: Int): DataModelLib {
         return getService(BaseInterceptor.interceptor).getLibraryAsync(
-            "274f828ad283bd634ef4fc1ee4af255f",
+            API_KEY,
             "ru",
             page
         ).await()
@@ -27,7 +24,7 @@ class RetrofitImplementation : DataSource<DataModelLib> {
     override suspend fun getDataFilm(film: Int): JsonObject {
         return getService(BaseInterceptor.interceptor).getFilmAsync(
             film,
-            "274f828ad283bd634ef4fc1ee4af255f",
+            API_KEY,
             "ru"
         ).await()
     }
@@ -53,7 +50,7 @@ class RetrofitImplementation : DataSource<DataModelLib> {
     }
 
     companion object {
-        //        private const val BASE_URL = "https://dictionary.skyeng.ru/api/public/v1/"
         private const val BASE_URL = "https://api.themoviedb.org/3/"
+        private const val API_KEY = "274f828ad283bd634ef4fc1ee4af255f"
     }
 }
