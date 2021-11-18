@@ -24,7 +24,6 @@ class MainViewModel(private val interactor: MainInteractor) :
         viewModelCoroutineScope.launch { startInteractor(page, isOnline) }
     }
 
-    //Doesn't have to use withContext for Retrofit call if you use .addCallAdapterFactory(CoroutineCallAdapterFactory()). The same goes for Room
     private suspend fun startInteractor(page: Int, isOnline: Boolean) =
         withContext(Dispatchers.IO) {
             _mutableLiveData.postValue(parseListResults(interactor.getData(page, isOnline)))
@@ -37,7 +36,6 @@ class MainViewModel(private val interactor: MainInteractor) :
             )
         }
     }
-
 
     override fun handleError(error: Throwable) {
         _mutableLiveData.postValue(AppState.Error(error))

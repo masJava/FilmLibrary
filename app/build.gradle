@@ -38,7 +38,6 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 
     //Design
-    //You should not use the com.android.support and com.google.android.material dependencies in your app at the same time
     implementation 'com.google.android.material:material:1.4.0'
 
     //Kotlin
