@@ -1,5 +1,6 @@
 package mas.com.filmLib.model.repository
 
+import mas.com.filmLib.model.data.DataModelFilm
 import mas.com.filmLib.model.data.DataModelLib
 import mas.com.filmLib.model.datasource.DataSource
 
@@ -8,6 +9,6 @@ class RepositoryImplementation(private val dataSource: DataSource<DataModelLib>)
 
     override suspend fun getData(page: Int): DataModelLib = dataSource.getData(page)
 
-    override suspend fun getDataFilm(film: Int): String = dataSource.getDataFilm(film).toString()
+    override suspend fun getDataFilm(film: Int): DataModelFilm = dataSource.getDataFilm(film)
 
 }

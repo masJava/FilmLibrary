@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import mas.com.filmLib.R
@@ -45,10 +44,8 @@ class DescriptionActivity : AppCompatActivity() {
     }
 
     private fun setData() {
-        val bundle = intent.extras
-        val gson = Gson()
         val filmData: DataModelFilm =
-            gson.fromJson(bundle?.getString(FILM_EXTRA), DataModelFilm::class.java)
+            intent.getParcelableExtra(FILM_EXTRA) ?: DataModelFilm()
         if (filmData == DataModelFilm()) {
             stopRefreshAnimationIfNeeded()
         } else {
@@ -113,7 +110,7 @@ class DescriptionActivity : AppCompatActivity() {
 
         fun getIntent(
             context: Context,
-            dataFilm: String
+            dataFilm: DataModelFilm
         ): Intent = Intent(context, DescriptionActivity::class.java).apply {
             putExtra(FILM_EXTRA, dataFilm)
         }
