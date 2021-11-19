@@ -1,10 +1,10 @@
 package mas.com.filmLib.model.datasource
 
-import com.google.gson.JsonObject
+import mas.com.filmLib.model.data.DataModelFilm
 
 interface DataSource<T> {
 
     suspend fun getData(page: Int): T
-    suspend fun getDataFilm(page: Int): JsonObject
+    suspend fun getDataFilm(page: Int): DataModelFilm
 
 }

@@ -1,6 +1,6 @@
 package mas.com.filmLib.model.datasource
 
-import com.google.gson.JsonObject
+import mas.com.filmLib.model.data.DataModelFilm
 import mas.com.filmLib.model.data.DataModelLib
 
 class RoomDataBaseImplementation : DataSource<DataModelLib> {
@@ -9,7 +9,7 @@ class RoomDataBaseImplementation : DataSource<DataModelLib> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getDataFilm(page: Int): JsonObject {
+    override suspend fun getDataFilm(page: Int): DataModelFilm {
         TODO("Not yet implemented")
     }
 }

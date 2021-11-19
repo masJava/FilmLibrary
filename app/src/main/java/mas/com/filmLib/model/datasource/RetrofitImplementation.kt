@@ -1,7 +1,7 @@
 package mas.com.filmLib.model.datasource
 
-import com.google.gson.JsonObject
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import mas.com.filmLib.model.data.DataModelFilm
 import mas.com.filmLib.model.data.DataModelLib
 import mas.com.filmLib.model.data.api.ApiService
 import mas.com.filmLib.model.data.api.BaseInterceptor
@@ -21,7 +21,7 @@ class RetrofitImplementation : DataSource<DataModelLib> {
         ).await()
     }
 
-    override suspend fun getDataFilm(film: Int): JsonObject {
+    override suspend fun getDataFilm(film: Int): DataModelFilm {
         return getService(BaseInterceptor.interceptor).getFilmAsync(
             film,
             API_KEY,
